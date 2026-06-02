@@ -132,7 +132,7 @@ export default function IdentityPage() {
                 <p className="mt-8 text-sm text-moon/55">Only Top {result.rarityScore.toFixed(1)}% of users share this celestial path.</p>
               </div>
             </section>
-            <ShareCard result={result} />
+            <ShareCard result={result} firstName={firstName} />
           </>
         )}
       </div>
