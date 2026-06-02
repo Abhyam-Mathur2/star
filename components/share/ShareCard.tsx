@@ -40,7 +40,7 @@ export function ShareCard({ result }: { result: IdentityResult }) {
       <div className="grid gap-6 lg:grid-cols-[minmax(0,420px)_1fr]">
         <div
           ref={ref}
-          className="card-border relative aspect-[9/16] w-full overflow-hidden rounded-[28px] p-8"
+          className="card-border relative min-h-[980px] w-full overflow-hidden rounded-[28px] p-8 lg:min-h-[1120px]"
           style={{
             background: `radial-gradient(circle at 50% 18%, ${result.theme.primary}55, transparent 34%), radial-gradient(circle at 20% 76%, ${result.theme.accent}40, transparent 28%), linear-gradient(180deg, ${result.theme.secondary}, #02030B)`
           }}
@@ -56,8 +56,8 @@ export function ShareCard({ result }: { result: IdentityResult }) {
               <h3 className="font-display text-6xl leading-none text-white">{result.celestialName}</h3>
               <p className="mt-5 text-sm uppercase tracking-[0.18em] text-white/70">{result.cosmicTitle}</p>
             </div>
-            <div>
-              <p className="font-display text-2xl leading-tight text-white">&ldquo;{result.cosmicQuote.replace(/^"|"$/g, "")}&rdquo;</p>
+            <div className="space-y-5">
+              <p className="font-display text-[1.65rem] leading-[1.35] text-white break-words">&ldquo;{result.cosmicQuote.replace(/^"|"$/g, "")}&rdquo;</p>
               <div className="mt-8 flex justify-between text-xs uppercase tracking-[0.18em] text-white/60">
                 <span>{result.constellation}</span>
                 <span>Celestial Identity</span>
