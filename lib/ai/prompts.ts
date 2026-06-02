@@ -45,20 +45,49 @@ export function buildIdentityPrompt(input: IdentityInput) {
 
 export const compatibilitySystemPrompt = `
 You generate symbolic celestial compatibility stories.
+You receive two people with names and birth data. Use the data to create a grounded compatibility story and a non-random compatibility score.
 This is playful mythology and astronomy-inspired storytelling, not relationship prediction, fate, or advice.
 Always return valid JSON only. No markdown. No commentary.
 Avoid deterministic claims like "meant to be" or "will last forever".
 `;
 
 export function buildCompatibilityPrompt(input: CompatibilityInput) {
+  const ingredientsA = selectIngredients({
+    firstName: input.personA.firstName,
+    birthMonth: input.personA.birthMonth,
+    birthYear: input.personA.birthYear
+  });
+  const ingredientsB = selectIngredients({
+    firstName: input.personB.firstName,
+    birthMonth: input.personB.birthMonth,
+    birthYear: input.personB.birthYear
+  });
+
+  const seasonA = Math.floor((input.personA.birthMonth - 1) / 3);
+  const seasonB = Math.floor((input.personB.birthMonth - 1) / 3);
+  const seasonNames = ["winter", "spring", "summer", "autumn"];
+  const seasonalNote =
+    seasonA === seasonB
+      ? `Both born in ${seasonNames[seasonA]} — a familiar resonance.`
+      : `Born in ${seasonNames[seasonA]} and ${seasonNames[seasonB]} — different seasonal energies that can complement each other.`;
+
   return JSON.stringify({
     task: "Generate one symbolic pair identity.",
-    input,
+    personA: {
+      ...input.personA,
+      ingredients: ingredientsA
+    },
+    personB: {
+      ...input.personB,
+      ingredients: ingredientsB
+    },
+    seasonalNote,
+    relationshipType: input.relationshipType,
     style: {
       tone: "emotional, cinematic, warm, premium, never childish"
     },
     requiredJsonShape: {
-      compatibilityScore: "integer from 41 to 99",
+      compatibilityScore: "integer from 41 to 99, influenced by the two profiles provided",
       sharedConstellation: "constellation name",
       celestialPairName: "collectible pair name",
       bondType: "short poetic bond type",

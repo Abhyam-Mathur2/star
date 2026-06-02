@@ -6,6 +6,12 @@ export const IdentityInputSchema = z.object({
   birthYear: z.coerce.number().int().min(1900).max(new Date().getFullYear())
 });
 
+export const PersonProfileSchema = z.object({
+  firstName: z.string().trim().min(2).max(32).regex(/^[a-zA-Z][a-zA-Z\s'-]*$/),
+  birthMonth: z.coerce.number().int().min(1).max(12),
+  birthYear: z.coerce.number().int().min(1900).max(new Date().getFullYear())
+});
+
 export const ThemeSchema = z.object({
   id: z.string().min(2).max(48),
   primary: z.string().regex(/^#[0-9a-fA-F]{6}$/),
@@ -29,8 +35,8 @@ export const IdentityResultSchema = z.object({
 });
 
 export const CompatibilityInputSchema = z.object({
-  personA: z.string().trim().min(2).max(32).regex(/^[a-zA-Z][a-zA-Z\s'-]*$/),
-  personB: z.string().trim().min(2).max(32).regex(/^[a-zA-Z][a-zA-Z\s'-]*$/),
+  personA: PersonProfileSchema,
+  personB: PersonProfileSchema,
   relationshipType: z.enum(["Friend", "Best Friend", "Crush", "Couple", "Sibling", "Family"])
 });
 
@@ -46,5 +52,6 @@ export const CompatibilityResultSchema = z.object({
 
 export type IdentityInput = z.infer<typeof IdentityInputSchema>;
 export type IdentityResult = z.infer<typeof IdentityResultSchema> & { slug?: string };
+export type PersonProfile = z.infer<typeof PersonProfileSchema>;
 export type CompatibilityInput = z.infer<typeof CompatibilityInputSchema>;
 export type CompatibilityResult = z.infer<typeof CompatibilityResultSchema>;
